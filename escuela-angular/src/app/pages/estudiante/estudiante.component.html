@@ -1,0 +1,114 @@
+<div >
+  <form class="row" [formGroup]="estudianteForm">
+    <div class="col-lg-4">
+      <label for="nombres" class="form-label">Nombres</label>
+      <input type="text" class="form-control" id="nombres" formControlName="nombres" placeholder="Nombre_curso">
+    </div>
+
+    <div class="col-lg-4">
+      <label for="apellidos" class="form-label">Apellidos</label>
+      <input type="text" class="form-control" id="apellidos" formControlName="apellidos" placeholder="Nombre_curso">
+    </div>
+
+    <div class="col-lg-4">
+      <label for="grado" class="form-label">Grado</label>
+      <input type="number" class="form-control" id="grado" formControlName="grado" placeholder="">
+    </div>
+
+    <div class="col-lg-4">
+      <label for="grupo" class="form-label">Grupo</label>
+      <input type="text" class="form-control" id="grupo" formControlName="grupo" placeholder="">
+    </div>
+
+    <div class="col-lg-4">
+      <label for="grupo" class="form-label">Grupo</label>
+      <input type="text" class="form-control" id="grupo" formControlName="grupo" placeholder="">
+    </div>
+
+    <div class="col-lg-4">
+      <label for="correo" class="form-label">Correo</label>
+      <input type="text" class="form-control" id="correo" formControlName="correo" placeholder="">
+    </div>
+
+    <div class="col-lg-4">
+      <label for="ubicacion" class="form-label">Ubicacion</label>
+      <input type="text" class="form-control" id="ubicacion" formControlName="ubicacion" placeholder="">
+    </div>
+
+    <div class="col-lg-4">
+      <ng-container *ngIf="estudianteForm.get('id').value == null">
+        <button type="button" class="btn btn-success" (click)="create()">Guardar</button>
+      </ng-container>
+
+      <ng-container *ngIf="estudianteForm.get('id').value !== null">
+        <button type="button" class="btn btn-primary" (click)="edit()">Editar</button>
+      </ng-container>
+    </div>
+
+  </form>
+
+  <div class="row">
+    <div class="mb-12">
+      <table class="table">
+        <thead>
+          <th>Nombre</th>
+          <th>Creditos</th>
+          <th>Acciones</th>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let i of listEstudiante">
+            <td>{{i.nombres}}</td>
+            <td>{{i.apellidos}}</td>
+            <td>{{i.grado}}</td>
+            <td>{{i.grupo}}</td>
+            <td>{{i.correo}}</td>
+            <td>{{i.ubicacion}}</td>
+            <td>
+              <button class="btn btn-primary" (click)="formInit(i)">Edit</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="modalInit(i.id)">Curso</button>
+              <button class="btn btn-danger" (click)="destroy(i.id)">del</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre Curso</th>
+              <th>Seleccionar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of listCursos">
+              <td>{{i.nombre_curso}}</td>
+              <td>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" [value]="i.check" (click)="i.check = !i.check" id="flexCheckDefault">
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Guardar </button>
+      </div>
+    </div>
+  </div>
+</div>
