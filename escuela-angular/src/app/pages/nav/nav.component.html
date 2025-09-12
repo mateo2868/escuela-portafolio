@@ -1,0 +1,77 @@
+<div class="d-flex" style="height: 100vh;">
+  <!-- Sidebar -->
+  <div
+    class="d-flex flex-column flex-shrink-0 p-3 text-white sidebar"
+    [ngClass]="{ 'collapsed': isCollapsed }"
+    [ngStyle]="isCollapsed ? {} : { width: '15rem' }"
+    style="background-color: #563d7c !important;"
+  >
+    <!-- Imagen de perfil -->
+
+
+    @if (!isCollapsed) {
+      <div class="text-center mb-4 mt-4">
+        <!-- <img src="https://via.placeholder.com/100" alt="Perfil" class="rounded-circle mb-2" width="100" height="100"> -->
+        <h5 class="mb-0">{{user.nombre}}</h5>
+        <span class="badge rounded-pill text-bg-light">{{user.rol}}</span>
+
+        <div style="position: fixed;">
+          <div class="dropdown">
+            <a href="#" class="d-flex align-items-center link-light text-decoration-none dropdown-toggle"
+              id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+              <!-- <img src="https://via.placeholder.com/32" alt="" width="32" height="32" class="rounded-circle me-2"> -->
+              <strong>Salir</strong>
+            </a>
+            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser">
+              <li><a class="dropdown-item" href="#">Configuración</a></li>
+              <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <hr>
+        <!-- Opciones de navegación -->
+      <ul class="nav nav-pills flex-column mb-auto">
+        @for (i of navbarOptions; track $index) {
+          <li class="nav-item">
+            <a [routerLink]="i.route" routerLinkActive="active" [ngClass]="{ 'bg-light text-dark': i.isActive, 'text-light': !i.isActive }" class="nav-link" #rla="routerLinkActive">
+              <lucide-angular [img]="i.icon"></lucide-angular>
+              {{ i.label }}
+            </a>
+          </li>
+        }
+      </ul>
+
+      <hr>
+    } @else {
+      <hr>
+      <ul class="nav nav-pills flex-column mb-auto">
+        @for (i of navbarOptions; track $index) {
+          <li class="nav-item">
+            <a [routerLink]="i.route" routerLinkActive="active" [ngClass]="{ 'bg-light text-dark': i.isActive, 'text-light': !i.isActive }" class="nav-link" #rla="routerLinkActive">
+              <lucide-angular [img]="i.icon"></lucide-angular>
+              <!-- {{ i.label }} -->
+            </a>
+          </li>
+        }
+      </ul>
+    }
+
+  </div>
+
+  <!-- Contenido dinámico con router-outlet -->
+  <div class="flex-grow-1">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light p-2">
+      <button class="btn btn-outline-secondary" (click)="toggleSidebar()">
+        <lucide-angular [img]="LayoutDashboardIcon"></lucide-angular>
+      </button>
+      <span class="ps-2" style="color: #563d7c;">{{currrentURL(currentUrl)}}</span>
+    </nav>
+
+    <div class="p-5"  >
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
