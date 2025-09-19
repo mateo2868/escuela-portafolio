@@ -1,0 +1,98 @@
+<div class="row">
+  <div class="mb-12">
+    <div class="row align-items-center mb-3">
+      <div class="col">
+        <h1 class="mb-0">Módulo de Curso</h1>
+        <p class="mb-0">CRUD de cursos y asignación de estudiantes</p>
+      </div>
+      <!-- Botón para abrir el modal -->
+      <div class="col-auto">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cursoModal" (click)="formInit()">
+          Nuevo Curso
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabla de cursos -->
+
+    <div style="border: 1px solid aliceblue; padding: 1rem;">
+      <h3>Lista de Cursos ({{listCursos.length}})</h3>
+      <span>Gestione todos los cursos del sistemas</span>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Estudiantes</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (i of listCursos; track $index) {
+            <tr>
+              <td>{{ i.nombre }}</td>
+              <td>{{ i.descripcion }}</td>
+              <td>
+                <span class="badge rounded-pill text-bg-warning">Estudiantes {{i.estudiantes.length}}</span>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-primary me-2" data-bs-toggle="modal" data-bs-target="#cursoModal" (click)="formInit(i)">Editar</button>
+                <button class="btn btn-sm btn-danger" (click)="destroy(i.id)">Eliminar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="cursoModal" tabindex="-1" aria-labelledby="cursoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="cursoForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cursoModalLabel">
+            {{ cursoForm.controls['id'].value ? 'Editar Curso' : 'Nuevo Curso' }}
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre Curso</label>
+            <input type="text" class="form-control" id="nombre" formControlName="nombre" placeholder="Nombre del curso">
+          </div>
+
+          <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripcion</label>
+            <input type="text" class="form-control" id="descripcion" formControlName="descripcion" placeholder="Número de créditos">
+          </div>
+
+          <div class="mb-3">
+            <label for="estudiantes" class="form-label">Estudiantes</label>
+            <ng-select
+              [items]="listEstudiantes"
+              bindLabel="nombre"
+              bindValue="uid"
+              [multiple]="true"
+              [searchable]="true"
+              placeholder="Selecciona estudiantes"
+              formControlName="estudiantes">
+            </ng-select>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" (click)="cursoForm.controls['id'].value ? edit() : create()">
+            {{ cursoForm.controls['id'].value ? 'Actualizar' : 'Guardar' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
