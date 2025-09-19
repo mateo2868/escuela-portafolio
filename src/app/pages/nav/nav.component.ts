@@ -33,7 +33,7 @@ export class NavComponent {
   activeSection: string = 'panel';
   LayoutDashboardIcon = LayoutDashboardIcon
   isCollapsed = false;
-  user: User;
+  user: User = { uid: "", nombre: '', email: '', rol: '' };
   currentUrl: string = '';
 
   NAVBAR_OPTIONS: Record<string, NavbarOption[]> = {
@@ -101,6 +101,7 @@ export class NavComponent {
   }
   setNavbarOptionsByRole() {
     const authData = localStorage.getItem('user');
+    console.log('Auth Data from localStorage:', authData);
     if (authData) {
       try {
         this.user = authData ? JSON.parse(authData) : null;
